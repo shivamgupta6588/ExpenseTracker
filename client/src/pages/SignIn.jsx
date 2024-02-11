@@ -1,11 +1,31 @@
-import { Link } from 'react-router-dom';
+import { Link ,useNavigate} from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import axios from 'axios';
+// import { json } from 'express/lib/response';
+
 
 const SignIn = () => {
 
-  const handleSubmit=()=>{
-}
+  const navigate = useNavigate(); 
+
+  const handleSubmit = async (values, { setSubmitting }) => {
+    try {
+      const response = await axios.post('/api/users/signin', values);
+      console.log('Signin successful:', response.data);
+      localStorage.setItem('user', JSON.stringify({ ...response.data, password: '' }));
+      navigate('/');
+    } catch (error) {
+      console.error('SignIn error:', error);
+      // Check if setSubmitting exists before calling it
+      if (setSubmitting) {
+        setSubmitting(false); 
+      }
+    }
+  };
+  
+  
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -20,14 +40,11 @@ const SignIn = () => {
             email: Yup.string().email('Invalid email address').required('Required'),
             password: Yup.string().required('Required')
           })}
-          onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
-              alert(JSON.stringify(values, null, 2));
-              setSubmitting(false);
-            }, 400);
-          }}
+         
+        onSubmit={handleSubmit}
         >
-          <Form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+           {({isSubmitting}) => (
+          <Form className="flex flex-col gap-4" >
             <Field
               type="text"
               placeholder="Email"
@@ -50,7 +67,7 @@ const SignIn = () => {
             >
               Sign In
             </button>
-          </Form>
+          </Form>)}
         </Formik>
         <div className="text-center mt-4 flex flex-row gap-2">
           <p>Don &apos;t have an account?</p>
