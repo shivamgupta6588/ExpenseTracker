@@ -1,22 +1,29 @@
 import { Link ,useNavigate} from 'react-router-dom';
+import {useDispatch} from 'react-redux';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-// import { json } from 'express/lib/response';
+import { signInFailure, signInStart, signInSuccess } from '../../redux/user/userSlice';
 
 
 const SignIn = () => {
 
+  const dispatch=useDispatch()
+
   const navigate = useNavigate(); 
 
   const handleSubmit = async (values, { setSubmitting }) => {
+
+    dispatch(signInStart());
     try {
       const response = await axios.post('/api/users/signin', values);
       console.log('Signin successful:', response.data);
+      dispatch(signInSuccess(response.data));
       localStorage.setItem('user', JSON.stringify({ ...response.data, password: '' }));
       navigate('/');
     } catch (error) {
       console.error('SignIn error:', error);
+      dispatch(signInFailure(error.message));
       // Check if setSubmitting exists before calling it
       if (setSubmitting) {
         setSubmitting(false); 
