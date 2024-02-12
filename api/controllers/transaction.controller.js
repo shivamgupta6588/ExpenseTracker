@@ -20,13 +20,34 @@ export const addTransaction = async (req, res, next) => {
     }
 };
 
+// Controller function to get transactions for the current user
+export const getTransactions = async (req, res, next) => {
+    try {
+      const { id } = req.params; // Access id from URL params
+      console.log(id);
+      const transactions = await Transaction.find({ reference: id });
+      res.json(transactions);
+    } catch (error) {
+      next(error);
+    }
+  };
+  
+  export const deleteTransaction = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+  
+      const deletedTransaction = await Transaction.findByIdAndDelete(id);
+  
+      // Check if the transaction exists
+      if (!deletedTransaction) {
+        return res.status(404).json({ message: 'Transaction not found' });
+      }
+  
+      res.json({ message: 'Transaction deleted successfully' });
+    } catch (error) {
+      next(error);
+    }
+  };
+  
 
-export const getTransactions=async(req,res,next)=>{
-        try {
-            const userId = req.user._id; 
-            const transactions = await Transaction.find({ reference: userId });    
-            res.status(200).json(transactions);
-        } catch (error) {
-            next(error);
-        }
-};
+

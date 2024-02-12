@@ -5,6 +5,7 @@ import About from "./pages/About.jsx";
 import SignIn from "./pages/SignIn.jsx";
 import SignUp from './pages/SignUp.jsx';
 import AddTransaction from './pages/AddTransaction.jsx';
+import TransactionList from './pages/TransactionList.jsx';
 // import PrivateRoute from './utils/PrivateRoute.js';
 // import {Outlet} from 'react-router-dom';
 
@@ -21,7 +22,7 @@ const App = () => {
       <Route  path='/sign-in' element={<SignIn/>}/>
       <Route  path='/sign-up' element={<SignUp/>}/>
       <Route path="/add-transaction" element={<AddTransaction/>} />
-
+      <Route path='/get-transaction' element={<TransactionList/>}/>
     </Routes>
     {/* <Outlet/> */}
     </BrowserRouter>

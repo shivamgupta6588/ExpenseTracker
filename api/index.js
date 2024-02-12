@@ -27,10 +27,6 @@
   app.use(cookieParser());
 
   // Routes
-  app.get('/', (req, res) => {
-    res.send('<h1>Hello from server</h1>');
-  });
-
   app.use('/api/users',userRouter);
   app.use('/api/transaction',transactionRouter)
 
