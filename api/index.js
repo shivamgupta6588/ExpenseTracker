@@ -5,6 +5,7 @@
   import mongoose from 'mongoose';
   import colors from 'colors';
   import userRouter from './routes/user.routes.js';
+  import transactionRouter from './routes/transaction.routes.js';
   import cookieParser from 'cookie-parser';
   dotenv.config();
 
@@ -30,7 +31,9 @@
     res.send('<h1>Hello from server</h1>');
   });
 
-  app.use('/api/users',userRouter)
+  app.use('/api/users',userRouter);
+  app.use('/api/transaction',transactionRouter)
+
   // Port configuration
   const port = process.env.PORT ;
 
