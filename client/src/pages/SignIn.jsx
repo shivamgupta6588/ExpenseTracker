@@ -17,9 +17,9 @@ const SignIn = () => {
     dispatch(signInStart());
     try {
       const response = await axios.post('/api/users/signin', values);
-      console.log('Signin successful:', response.data);
+      // console.log('Signin successful:', response.data);
       dispatch(signInSuccess(response.data));
-      localStorage.setItem('user', JSON.stringify({ ...response.data, password: '' }));
+      // localStorage.setItem('user', JSON.stringify({ ...response.data, password: '' }));
       navigate('/');
     } catch (error) {
       console.error('SignIn error:', error);
