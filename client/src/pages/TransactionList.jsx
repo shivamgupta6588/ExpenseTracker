@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from 'axios'
 import { useSelector } from 'react-redux';
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import {Link } from 'react-router-dom';
 
 
 
@@ -36,11 +37,6 @@ const TransactionList = () => {
     }
   };
 
-  const handleUpdate = (id) => {
-    // Implement your update logic here
-    console.log(`Update transaction with ID: ${id}`);
-  };
-
   return (
     <div className="max-w-lg mx-auto mt-8 p-4 bg-white shadow-lg rounded-lg">
       <h2 className="text-2xl font-bold mb-4">Transaction List</h2>
@@ -62,7 +58,11 @@ const TransactionList = () => {
                 </div>
               </div>
               <div className="flex justify-end mt-4">
-                <button onClick={() => handleUpdate(transaction._id)} className="mr-4 text-blue-500 hover:text-blue-700 focus:outline-none"><FaEdit /></button>
+              <Link to={`/update-transaction/${transaction._id}`}>
+                <button className="mr-4 text-blue-500 hover:text-blue-700 focus:outline-none">
+                  <FaEdit />
+                  </button>
+              </Link>
                 <button onClick={() => handleDelete(transaction._id)} className="text-red-500 hover:text-red-700 focus:outline-none"><MdDelete /></button>
               </div>
             </li>

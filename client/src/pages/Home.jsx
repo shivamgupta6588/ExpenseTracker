@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useSelector } from 'react-redux';
+import FilterTransactionList from "./FilterTransactionList.jsx";
 
 const Home = () => {
   const { currentUser } = useSelector(state => state.user);
@@ -15,6 +16,7 @@ const Home = () => {
         Get Transaction
       </Link>
       </>)}
+      <FilterTransactionList/>
     </div>
   );
 };
