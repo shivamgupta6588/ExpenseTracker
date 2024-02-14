@@ -15,8 +15,8 @@ const Home = () => {
       <Link to="/get-transaction" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition duration-300">
         Get Transaction
       </Link>
-      </>)}
       <FilterTransactionList/>
+      </>)}
     </div>
   );
 };
