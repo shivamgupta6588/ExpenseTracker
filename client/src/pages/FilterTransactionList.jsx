@@ -1,10 +1,10 @@
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { GrPowerReset } from "react-icons/gr";
 import { useSelector } from 'react-redux';
 import { CSVLink } from 'react-csv';
 import { FaDownload } from "react-icons/fa";
-
+import Charts from './Charts';
 
 const FilterTransactionList = () => {
     const [transactions, setTransactions] = useState([]);
@@ -22,7 +22,7 @@ const FilterTransactionList = () => {
             const userID = currentUser._id;
             try {
                 const response = await axios.get(`/api/transaction/gets/${userID}`, {
-                    params: filters // Pass filters as query parameters
+                    params: filters 
                 });
                 setTransactions(response.data);
                 setLoading(false);
@@ -55,9 +55,9 @@ const FilterTransactionList = () => {
     };
 
     return (
-        <div className="max-w-3xl flex  flex-col flex-wrap mx-auto p-6 bg-blue-200 rounded-lg shadow-md">
-            <h2 className="text-2xl font-semibold mb-4">Transaction List</h2>
-            <form className="flex flex-wrap max-sm:flex-col gap-4  mb-4">
+        <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md">
+            <h2 className="text-2xl font-semibold text-gray-800 mb-4">Transaction List</h2>
+            <form className="flex flex-wrap gap-4 mb-4">
                 <input type="date" name="startDate" value={filters.startDate} onChange={handleFilterChange} className="input-field" />
                 <input type="date" name="endDate" value={filters.endDate} onChange={handleFilterChange} className="input-field" />
                 <select name="transactionType" value={filters.transactionType} onChange={handleFilterChange} className="input-field">
@@ -72,43 +72,46 @@ const FilterTransactionList = () => {
                     transactionType: '',
                     category: ''
                 })} className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md">
-                <GrPowerReset />
+                    <GrPowerReset />
                 </button>
-                
             </form>
-            {transactions.length > 0 &&
-                  <CSVLink data={exportCSV()} filename="transactions.csv">
-                    <button className="bg-blue-500 text-white px-4 py-2 rounded-md  hover:bg-blue-600 transition duration-300"><FaDownload />
+            {transactions.length > 0 && (
+                <CSVLink data={exportCSV()} filename="transactions.csv">
+                    <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300">
+                        <FaDownload /> Download CSV
                     </button>
-                  </CSVLink>
-                }
-
-
+                </CSVLink>
+            )}
             {loading ? (
                 <p>Loading...</p>
             ) : transactions.length > 0 ? ( 
-                <table className="w-full border-collapse border ">
-                    <thead>
-                        <tr className="bg-gray-200 ">
-                            <th className="px-4 py-2 border-gray-500">Description</th>
-                            <th className="px-4 py-2">Amount</th>
-                            <th className="px-4 py-2">Type</th>
-                            <th className="px-4 py-2">Category</th>
-                            <th className="px-4 py-2">Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {transactions.map(transaction => (
-                            <tr key={transaction._id}>
-                                <td className="border px-4 py-2 border-gray-800">{transaction.description}</td>
-                                <td className="border px-4 py-2">₹ {transaction.amount}</td>
-                                <td className="border px-4 py-2">{transaction.type}</td>
-                                <td className="border px-4 py-2">{transaction.category}</td>
-                                <td className="border px-4 py-2">{new Date(transaction.date).toLocaleDateString()}</td>
+                <>
+                    <table className="w-full border-collapse border mt-4">
+                        <thead>
+                            <tr className="bg-gray-200 text-gray-700">
+                                <th className="px-4 py-2">Description</th>
+                                <th className="px-4 py-2">Amount</th>
+                                <th className="px-4 py-2">Type</th>
+                                <th className="px-4 py-2">Category</th>
+                                <th className="px-4 py-2">Date</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {transactions.map(transaction => (
+                                <tr key={transaction._id}>
+                                    <td className="border px-4 py-2">{transaction.description}</td>
+                                    <td className="border px-4 py-2">₹ {transaction.amount}</td>
+                                    <td className="border px-4 py-2">{transaction.type}</td>
+                                    <td className="border px-4 py-2">{transaction.category}</td>
+                                    <td className="border px-4 py-2">{new Date(transaction.date).toLocaleDateString()}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                    <div className="mt-4">
+                        <Charts transactions={transactions}/>
+                    </div>
+                </>
             ) : (
                 <div className="text-gray-600">No transactions to show.</div>
             )}
