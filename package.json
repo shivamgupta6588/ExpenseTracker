@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon api/index.js",
     "start": "node api/index.js",
-    "build":" npm install && npm install --prefix client && npm run build --prefix client"
+    "build": " npm install && npm install --prefix client && npm run build --prefix client"
   },
   "repository": {
     "type": "git",
@@ -31,6 +31,7 @@
     "mongoose": "^8.1.1",
     "morgan": "^1.10.0",
     "nodemon": "^3.0.3",
+    "path": "^0.12.7",
     "react-icons": "^5.0.1"
   }
 }
