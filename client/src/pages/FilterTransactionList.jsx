@@ -5,6 +5,8 @@ import { useSelector } from 'react-redux';
 import { CSVLink } from 'react-csv';
 import { FaDownload } from "react-icons/fa";
 import Charts from './Charts';
+import ExpensesCalendar from './ExpensesCalendar';
+import Table from './Table';
 
 const FilterTransactionList = () => {
     const [transactions, setTransactions] = useState([]);
@@ -86,30 +88,10 @@ const FilterTransactionList = () => {
                 <p>Loading...</p>
             ) : transactions.length > 0 ? ( 
                 <>
-                    <table className="w-full border-collapse border mt-4">
-                        <thead>
-                            <tr className="bg-gray-200 text-gray-700">
-                                <th className="px-4 py-2">Description</th>
-                                <th className="px-4 py-2">Amount</th>
-                                <th className="px-4 py-2">Type</th>
-                                <th className="px-4 py-2">Category</th>
-                                <th className="px-4 py-2">Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {transactions.map(transaction => (
-                                <tr key={transaction._id}>
-                                    <td className="border px-4 py-2">{transaction.description}</td>
-                                    <td className="border px-4 py-2">₹ {transaction.amount}</td>
-                                    <td className="border px-4 py-2">{transaction.type}</td>
-                                    <td className="border px-4 py-2">{transaction.category}</td>
-                                    <td className="border px-4 py-2">{new Date(transaction.date).toLocaleDateString()}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                    <Table transactions={transactions}/>
                     <div className="mt-4">
                         <Charts transactions={transactions}/>
+                        <ExpensesCalendar  transactions={transactions}/>
                     </div>
                 </>
             ) : (

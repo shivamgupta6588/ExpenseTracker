@@ -2,6 +2,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios'; // Import Axios
 import { signOutUserStart, signOutSuccess, signOutUserFailure } from '../../../redux/user/userSlice.js';
+import { FaSignOutAlt,FaHome } from "react-icons/fa";
+import { MdPerson } from "react-icons/md";
+
 
 const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -30,6 +33,11 @@ const Header = () => {
           <h1 className="text-2xl font-bold">Expenses Website</h1>
         </Link>
         <div className="flex items-center gap-2 flex-wrap">
+          {currentUser&&
+          <div className='flex items-center gap-1'>
+          <MdPerson />
+          <span className='uppercase'> {currentUser.name}</span>
+          </div>}
           <Link to="/" className="text-gray-200 hover:text-white">Home</Link>
           <Link to="/about" className="text-gray-200 hover:text-white">About</Link>
           {!currentUser ? (
@@ -38,7 +46,7 @@ const Header = () => {
               <Link to="/sign-up" className="text-gray-200 hover:text-white">Sign Up</Link>
             </>
           ) : (
-            <button onClick={handleSignOut}>Sign Out</button>
+            <button onClick={handleSignOut}><span className='flex items-center gap-1'> <FaSignOutAlt />Sign Out </span></button>
           )}
         </div>
       </div>
