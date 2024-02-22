@@ -27,26 +27,28 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-gray-700 text-white py-4 px-8">
-      <div className="mx-auto flex gap-2 max-sm:flex-col flex-wrap justify-between items-center">
-        <Link to="/">
+    <header className="bg-[#9c6936] text-white py-4 px-8">
+      <div className="mx-auto flex gap-3 max-sm:flex-col flex-wrap justify-between items-center">
+        <Link to="/about">
           <h1 className="text-2xl font-bold">Expenses Website</h1>
         </Link>
-        <div className="flex items-center gap-2 flex-wrap">
+        <div className="flex items-center gap-2 flex-wrap max-sm:text-xs text-gray-200 hover:text-white">
           {currentUser&&
           <div className='flex items-center gap-1'>
           <MdPerson />
           <span className='uppercase'> {currentUser.name}</span>
           </div>}
-          <Link to="/" className="text-gray-200 hover:text-white">Home</Link>
-          <Link to="/about" className="text-gray-200 hover:text-white">About</Link>
+          <Link to="/" className=" ">
+          <span className='flex items-center justify-center max-sm:text-xs gap-1'><FaHome/> <span className='max-sm:hidden'>Home</span> </span>
+          </Link>
+          <Link to="/about" className="max-sm:hidden">About</Link>
           {!currentUser ? (
             <>
               <Link to="/sign-in" className="text-gray-200 hover:text-white">Sign In</Link>
               <Link to="/sign-up" className="text-gray-200 hover:text-white">Sign Up</Link>
             </>
           ) : (
-            <button onClick={handleSignOut}><span className='flex items-center gap-1'> <FaSignOutAlt />Sign Out </span></button>
+            <button onClick={handleSignOut}><span className='flex items-center justify-center max-sm:text-xs gap-1'> <FaSignOutAlt /><span className='max-sm:hidden'>Sign Out</span> </span></button>
           )}
         </div>
       </div>

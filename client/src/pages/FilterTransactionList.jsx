@@ -5,8 +5,10 @@ import { useSelector } from 'react-redux';
 import { CSVLink } from 'react-csv';
 import { FaDownload } from "react-icons/fa";
 import Charts from './Charts';
-import ExpensesCalendar from './ExpensesCalendar';
+import CategoryCharts from './CategoryCharts';
 import Table from './Table';
+import { FaFilter } from "react-icons/fa";
+
 
 const FilterTransactionList = () => {
     const [transactions, setTransactions] = useState([]);
@@ -57,30 +59,31 @@ const FilterTransactionList = () => {
     };
 
     return (
-        <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">Transaction List</h2>
-            <form className="flex flex-wrap gap-4 mb-4">
-                <input type="date" name="startDate" value={filters.startDate} onChange={handleFilterChange} className="input-field" />
-                <input type="date" name="endDate" value={filters.endDate} onChange={handleFilterChange} className="input-field" />
-                <select name="transactionType" value={filters.transactionType} onChange={handleFilterChange} className="input-field">
+        <div className="max-w-3xl mx-auto p-6 border bg-[#ffdc99] rounded-lg shadow-md">
+            <h2 className="text-2xl font-semibold text-orange-800 mb-4 flex-row flex"><FaFilter />Filter</h2>
+            <form className="flex flex-wrap  max-sm:flex-col  gap-4 mb-4">
+                <input  type="date" name="startDate" value={filters.startDate} onChange={handleFilterChange} className="border rounded-lg px-4 py-2 text-base text-gray-700 bg-white focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500" />
+                <input type="date" name="endDate" value={filters.endDate} onChange={handleFilterChange} className="border rounded-lg px-4 py-2 text-base text-gray-700 bg-white focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500" />
+                <select name="transactionType" value={filters.transactionType} onChange={handleFilterChange} className="border rounded-lg px-4 py-2 text-base text-gray-700 bg-white focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500">
                     <option value="">All Types</option>
                     <option value="income">Income</option>
                     <option value="expense">Expense</option>
                 </select>
-                <input type="text" name="category" value={filters.category} onChange={handleFilterChange} placeholder="Category" className="input-field" />
+                <input type="text" name="category" value={filters.category} onChange={handleFilterChange} placeholder="Category" 
+                className="border rounded-lg px-4 py-2 text-base text-gray-700 bg-white focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500" />
                 <button type="button" onClick={() => setFilters({
                     startDate: '',
                     endDate: '',
                     transactionType: '',
                     category: ''
-                })} className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md">
+                })} className=" bg-orange-800 px-4 text-white py-2 rounded-md flex items-center justify-center max-sm:max-w-[60px]">
                     <GrPowerReset />
                 </button>
             </form>
             {transactions.length > 0 && (
                 <CSVLink data={exportCSV()} filename="transactions.csv">
-                    <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300">
-                        <FaDownload /> Download CSV
+                    <button className="bg-orange-800 text-white px-4 py-2 rounded-md hover:bg-orange-600 transition duration-300 flex items-center justify-center max-sm:max-w-[60px]">
+                        <FaDownload /> 
                     </button>
                 </CSVLink>
             )}
@@ -88,10 +91,10 @@ const FilterTransactionList = () => {
                 <p>Loading...</p>
             ) : transactions.length > 0 ? ( 
                 <>
-                    <Table transactions={transactions}/>
-                    <div className="mt-4">
+                    <p className='max-sm:hidden'><Table transactions={transactions}/></p>
+                    <div className="mt-4 flex flex-col gap-3">
                         <Charts transactions={transactions}/>
-                        <ExpensesCalendar  transactions={transactions}/>
+                        <CategoryCharts  transactions={transactions}/>
                     </div>
                 </>
             ) : (

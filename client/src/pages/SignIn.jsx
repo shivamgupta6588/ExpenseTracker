@@ -35,7 +35,7 @@ const SignIn = () => {
 
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-md w-full sm:w-1/2 lg:w-1/3">
         <h1 className="text-3xl text-center font-semibold text-gray-800 mb-6">Sign In</h1>
         <Formik

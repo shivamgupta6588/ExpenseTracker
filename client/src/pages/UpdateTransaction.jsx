@@ -6,24 +6,24 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 
 const UpdateTransaction = () => {
-  const [formData, setFormData] = useState(null); // Initialize formData as null
-  const [loading, setLoading] = useState(true); // Add loading state
-  const { currentUser } = useSelector(state => (state.user));
+  const [formData, setFormData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const { currentUser } = useSelector(state => state.user);
   const { id } = useParams();
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTransaction = async () => {
       try {
         const res = await axios.get(`/api/transaction/gettransaction/${id}`);
-        const formattedData = { ...res.data, date: new Date(res.data.date).toLocaleDateString('en-CA') };
+        const formattedData = { ...res.data, date: new Date(res.data.date).toISOString().substr(0, 10) };
         setFormData(formattedData);
-        setLoading(false); 
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching transaction:', error);
       }
     };
-    
+
     fetchTransaction();
   }, [id]);
 
@@ -37,7 +37,7 @@ const UpdateTransaction = () => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      await axios.post(`/api/transaction/update/${id}`, {...values, reference: currentUser._id});
+      await axios.post(`/api/transaction/update/${id}`, { ...values, reference: currentUser._id });
       console.log('Transaction updated successfully');
       navigate('/get-transaction');
     } catch (error) {
@@ -48,22 +48,22 @@ const UpdateTransaction = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>; // Render loading indicator while data is being fetched
+    return <div>Loading...</div>;
   }
 
   return (
     <div className="max-w-md mx-auto">
       <h2 className="text-2xl font-bold mb-4">Update Transaction</h2>
       <Formik
-        initialValues={formData || {}} // Initialize with formData if available
+        initialValues={formData || {}}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({ isSubmitting }) => (
+        {({ isSubmitting, values }) => (
           <Form className="space-y-4">
             <div>
               <label htmlFor="description" className="block">Description:</label>
-              <Field type="text" id="description" name="description"  className="w-full px-4 py-2 border rounded-md" />
+              <Field type="text" id="description" name="description" className="w-full px-4 py-2 border rounded-md" />
               <ErrorMessage name="description" component="div" className="text-red-500" />
             </div>
 
@@ -84,7 +84,28 @@ const UpdateTransaction = () => {
 
             <div>
               <label htmlFor="category" className="block">Category:</label>
-              <Field type="text" id="category" name="category" className="w-full px-4 py-2 border rounded-md" />
+              <Field as="select" id="category" name="category" className="w-full px-4 py-2 border rounded-md">
+                {values.type === 'expense' ? (
+                  <>
+                    <option value="Shopping">Shopping</option>
+                    <option value="Groceries">Groceries</option>
+                    <option value="Utilities">Utilities</option>
+                    <option value="Rent">Rent</option>
+                    <option value="Transportation">Transportation</option>
+                    <option value="Healthcare">Healthcare</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Education">Education</option>
+                    <option value="Other">Other</option>
+                  </>
+                ) : (
+                  <>
+                    <option value="Salary">Salary</option>
+                    <option value="Bonus">Bonus</option>
+                    <option value="Investment">Investment</option>
+                    {/* Add more income categories here if needed */}
+                  </>
+                )}
+              </Field>
               <ErrorMessage name="category" component="div" className="text-red-500" />
             </div>
 

@@ -39,12 +39,15 @@ const Charts = ({ transactions }) => {
   const colors = ['#5ECC62', '#FF6262'];
 
   const [selectedTab, setSelectedTab] = useState('bar');
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 
   return (
     <div>
       <div className="flex justify-center items-center my-4">
-        <button onClick={() => setSelectedTab('bar')} className={`mr-4 px-4 py-2 rounded-md focus:outline-none ${selectedTab === 'bar' ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700'}`}>Bar Chart</button>
-        <button onClick={() => setSelectedTab('pie')} className={`px-4 py-2 rounded-md focus:outline-none ${selectedTab === 'pie' ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700'}`}>Pie Chart</button>
+        <button onClick={() => setSelectedTab('bar')} className={`mr-4 px-4 py-2 rounded-md focus:outline-none ${selectedTab === 'bar' ?' text-white bg-orange-800': 'bg-[#9c6936] text-white' }`}>Bar Chart</button>
+        <button onClick={() => setSelectedTab('pie')} className={`px-4 py-2 rounded-md focus:outline-none ${selectedTab === 'pie' ? 'text-white bg-orange-800':'bg-[#9c6936] text-white'}`}>Pie Chart</button>
       </div>
       {selectedTab === 'bar' ? (
         <ResponsiveContainer width="100%" height={400}>
@@ -83,19 +86,24 @@ const Charts = ({ transactions }) => {
           </PieChart>
         </ResponsiveContainer>
       )}
-      <div className="mt-4">
-        <div className="flex justify-between">
-          <div className="bg-green-100 p-4 rounded-md">
+      <div className="mt-4 flex flex-col gap-4 items-center">
+        <div className="flex justify-between gap-3 max-sm:flex-col  flex-1">
+          <div className="bg-green-100 p-4 rounded-md flex-1/2">
             <p className="text-lg font-semibold">Total Income</p>
-            <p className="text-2xl font-bold">₹ {totalIncome}</p>
+            <p className="text-2xl font-bold">₹ {totalIncome.toLocaleString('en-US', {maximumFractionDigits:2})}</p>
             <p>Income Percentage: {incomePercentage.toFixed(2)}%</p>
           </div>
-          <div className="bg-red-100 p-4 rounded-md">
+          <div className="bg-red-100 p-4 rounded-md flex-1/2">
             <p className="text-lg font-semibold">Total Expenses</p>
-            <p className="text-2xl font-bold">₹ {totalExpense}</p>
+            <p className="text-2xl font-bold">₹ {totalExpense.toLocaleString('en-US', {maximumFractionDigits:2})}</p>
             <p>Expense Percentage: {expensePercentage.toFixed(2)}%</p>
           </div>
+          
         </div>
+        <div className="bg-orange-400 p-4 rounded-md flex-1">
+            <p className="text-lg font-semibold">Total Balance</p>
+            <p className="text-2xl font-bold">₹ {totalExpense>totalIncome? numberWithCommas(-(totalExpense-totalIncome)):numberWithCommas(Math.abs(totalExpense-totalIncome))}</p>
+          </div>
       </div>
     </div>
   );
