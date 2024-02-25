@@ -62,7 +62,7 @@ const Table = ({ transactions }) => {
               <td className="border px-4 py-2">{formatDate(transaction.date)}</td>
               <td className="border px-4 py-2">{transaction.type}</td>
               <td className="border px-4 py-2">{transaction.description}</td>
-              <td className="border px-4 py-2">₹ {transaction.amount}</td>
+              <td className="border px-4 py-2">₹ {transaction.amount.toLocaleString('en-US', {maximumFractionDigits:2})}</td>
               <td className="border px-4 py-2">{transaction.category}</td>
             </tr>
           ))}

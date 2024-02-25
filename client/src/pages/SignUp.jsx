@@ -2,27 +2,30 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const SignUp = () => {
   const navigate = useNavigate(); 
 
-  const handleSubmit =async (values, { setSubmitting }) => {
-
-   await axios.post('/api/users/signup', values)
-      .then(response => {
-        console.log('Signup successful:', response.data);
-        navigate('/');
-      })
-      .catch(error => {
-        console.error('Signup error:', error);
-        setSubmitting(false); 
-      });
+  const handleSubmit = async (values, { setSubmitting }) => {
+    try {
+      const response = await axios.post('/api/users/signup', values);
+      console.log('Signup successful:', response.data);
+      navigate('/sign-in');
+      toast.success('Sign up successful');
+    } catch (error) {
+      console.error('Signup error:', error);
+      setSubmitting(false);
+      toast.error('Sign up failed. Please try again.');
+    }
   };
+  
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full sm:w-1/2 lg:w-1/3">
-        <h1 className="text-3xl text-center font-semibold text-gray-800 mb-6">Sign Up</h1>
+    <div className="min-h-screen flex items-center justify-center  max-sm:m-4">
+      <div className="bg-[#ffdc99] p-8 rounded-lg shadow-md w-full sm:w-1/2 lg:w-1/3">
+        <h1 className="text-3xl text-center font-semibold text-orange-800 mb-6">Sign Up</h1>
         <Formik
           initialValues={{
             name: '',
@@ -64,7 +67,7 @@ const SignUp = () => {
               <ErrorMessage name="password" component="div" className="text-red-500" />
               <button
                 type="submit"
-                className="bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300"
+                className="bg-[#9c6936] text-white text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? 'Signing Up...' : 'Sign Up'}

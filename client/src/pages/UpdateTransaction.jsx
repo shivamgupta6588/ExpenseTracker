@@ -10,7 +10,7 @@ const UpdateTransaction = () => {
   const [loading, setLoading] = useState(true);
   const { currentUser } = useSelector(state => state.user);
   const { id } = useParams();
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     const fetchTransaction = async () => {
@@ -52,15 +52,15 @@ const UpdateTransaction = () => {
   }
 
   return (
-    <div className="max-w-md mx-auto">
-      <h2 className="text-2xl font-bold mb-4">Update Transaction</h2>
+    <div className="max-w-lg mx-auto flex flex-col mt-10">
+      <h2 className="text-2xl font-bold mb-4  self-center text-orange-800">Update Transaction</h2>
       <Formik
         initialValues={formData || {}}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
         {({ isSubmitting, values }) => (
-          <Form className="space-y-4">
+          <Form className="space-y-4 flex flex-col text-[#9c6936] font-semibold	">
             <div>
               <label htmlFor="description" className="block">Description:</label>
               <Field type="text" id="description" name="description" className="w-full px-4 py-2 border rounded-md" />
@@ -115,8 +115,8 @@ const UpdateTransaction = () => {
               <ErrorMessage name="date" component="div" className="text-red-500" />
             </div>
 
-            <button type="submit" disabled={isSubmitting} className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300">
-              Update Transaction
+            <button type="submit" disabled={isSubmitting} className="w-[80%] bg-[#9c6936] text-white self-center px-4 py-2 rounded-md hover:bg-orange-800 transition duration-300">
+              Save
             </button>
           </Form>
         )}

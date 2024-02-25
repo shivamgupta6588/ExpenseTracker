@@ -9,7 +9,6 @@ const AddTransaction = () => {
   const { currentUser } = useSelector(state => state.user);
   const userID = currentUser._id;
 
-  // Define validation schema using Yup
   const validationSchema = Yup.object({
     description: Yup.string().required('Description is required'),
     amount: Yup.number().required('Amount is required').positive('Amount must be positive'),
@@ -18,29 +17,22 @@ const AddTransaction = () => {
     date: Yup.date().required('Date is required'),
   });
 
-  // Function to handle form submission
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
-      // Make API call to add transaction
       await axios.post('/api/transaction/add', { ...values, userID });
       console.log('Transaction added successfully:');
-
-      // Reset form after successful submission
       resetForm();
       navigate("/");
-
-      // Optionally, you can show a success message or redirect the user
     } catch (error) {
       console.error('Error adding transaction:', error);
     } finally {
-      // Set submitting to false after form submission
       setSubmitting(false);
     }
   };
 
   return (
-    <div className="max-w-md mx-auto">
-      <h2 className="text-2xl font-bold mb-4">Add Transaction</h2>
+    <div className="max-w-lg mx-auto flex flex-col mt-10">
+      <h2 className="text-2xl font-bold mb-4  self-center text-orange-800">Add Transaction</h2>
       <Formik
         initialValues={{
           description: '',
@@ -53,7 +45,7 @@ const AddTransaction = () => {
         onSubmit={handleSubmit}
       >
         {({ isSubmitting, values }) => (
-          <Form className="space-y-4">
+          <Form className="space-y-4 flex flex-col text-[#9c6936] font-semibold	">
             <div>
               <label htmlFor="description" className="block">Description:</label>
               <Field type="text" id="description" name="description" className="w-full px-4 py-2 border rounded-md" />
@@ -62,7 +54,7 @@ const AddTransaction = () => {
 
             <div>
               <label htmlFor="amount" className="block">Amount:</label>
-              <Field type="number"  id="amount" name="amount" className="w-full px-4 py-2 border rounded-md" />
+              <Field type="number" id="amount" name="amount" className="w-full px-4 py-2 border rounded-md" />
               <ErrorMessage name="amount" component="div" className="text-red-500" />
             </div>
 
@@ -110,7 +102,7 @@ const AddTransaction = () => {
               <ErrorMessage name="date" component="div" className="text-red-500" />
             </div>
 
-            <button type="submit" disabled={isSubmitting} className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300">
+            <button type="submit" disabled={isSubmitting} className="w-[80%] bg-[#9c6936] text-white self-center px-4 py-2 rounded-md hover:bg-orange-800 transition duration-300">
               Save
             </button>
           </Form>

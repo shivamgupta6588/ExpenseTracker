@@ -34,10 +34,11 @@ const Header = () => {
         </Link>
         <div className="flex items-center gap-2 flex-wrap max-sm:text-xs text-gray-200 hover:text-white">
           {currentUser&&
-          <div className='flex items-center gap-1'>
+          <Link to="/update-user"><div className='flex items-center gap-1'>
           <MdPerson />
           <span className='uppercase'> {currentUser.name}</span>
-          </div>}
+          </div>
+          </Link>}
           <Link to="/" className=" ">
           <span className='flex items-center justify-center max-sm:text-xs gap-1'><FaHome/> <span className='max-sm:hidden'>Home</span> </span>
           </Link>

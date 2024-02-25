@@ -95,7 +95,7 @@ const CategoryCharts = ({ transactions }) => {
       },
     },
     fill: {
-      colors: getBarChartData().map(data => data.color), // Assigning colors to bars
+      colors: '#9c6936', // Assigning colors to bars
     },
     tooltip: {
       y: {
